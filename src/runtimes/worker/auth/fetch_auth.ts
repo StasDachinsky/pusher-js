@@ -17,7 +17,7 @@ var fetchAuth : AuthTransport = function(context, socketId, callback){
     credentials: "same-origin",
     method: "POST",
   });
-  request.withCredentials = !!this.authOptions.withCredentials;
+
   return fetch(request).then((response)=>{
     let {status} = response;
     if (status === 200) {

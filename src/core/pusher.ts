@@ -234,12 +234,18 @@ export default class Pusher {
     return channel;
   }
 
-  unsubscribe(channel_name : string) {
-    var channel = this.channels.find(channel_name);
+  unsubscribe(channel_name? : string, ex_channel?: Channel) {
+    if(!channel_name && !ex_channel) throw new Error("Unsubscribe error: no one channel provided");
+    var channel = null;
+    if(ex_channel) {
+      channel = ex_channel;
+    } else {
+      channel = this.channels.find(channel_name)
+    }
     if (channel && channel.subscriptionPending) {
       channel.cancelSubscription();
     } else {
-      channel = this.channels.remove(channel_name);
+      // channel = this.channels.remove(channel_name);
       if (channel && this.connection.state === "connected") {
         channel.unsubscribe();
       }
